@@ -1,4 +1,4 @@
-https://travis-ci.org/chipycodingworkshop/CodingWorkshops.svg?branch=develop%2Fci
+[![Build Status](https://travis-ci.org/chipycodingworkshop/CodingWorkshops.svg?branch=master)](https://travis-ci.org/chipycodingworkshop/CodingWorkshops)
 
 # Intro to PyTest
 This is a gentle introduction to testing with pytest.
