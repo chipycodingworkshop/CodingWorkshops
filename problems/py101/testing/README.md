@@ -119,3 +119,31 @@ the pytest.ini file and remove the --flake8 or --cov options
 Add virtual env for windows
 
 # Travis
+## Setup
+In this section we will set up a Continuous Integration pipeline
+with Travis-ci. To do this first head over to https://travis-ci.org/.
+Sign in with Github, and accept the terms and conditions.
+On success, you should be at your profile page that lists that lists
+the CodingWorkshop repository. If you have multiple repositories, you
+will have to search for the repository. After you have found the repo,
+toggle the button next to the repository to enable pipeline travis CI for
+this repository. Your setup is now complete.
+
+## First CI build
+### Ensure you are on the current branch
+After setup is complete, next go back to the terminal and ensure that
+you are on the develop/ci branch.
+
+    git branch
+
+should show an asterix next to `develop/ci` branch name.
+
+### Push a failing test
+You are now all set to fix the tests. Goto `test_team_organizer.py` and
+find `test_add_a_person_with_lower_than_median` test. Notice this test is
+skipped when run with pytest. To fix it remove the decorator `pytest.mark.skip`
+and run `pytest` again.
+
+
+
+
