@@ -1,3 +1,5 @@
+https://travis-ci.org/chipycodingworkshop/CodingWorkshops.svg?branch=develop%2Fci
+
 # Intro to PyTest
 This is a gentle introduction to testing with pytest.
 We will use the problem that we have seen before
@@ -115,3 +117,5 @@ the pytest.ini file and remove the --flake8 or --cov options
 
 # TODO 
 Add virtual env for windows
+
+# Travis
