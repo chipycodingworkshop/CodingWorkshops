@@ -44,7 +44,7 @@ def test_add_a_person_with_lower_than_median(organizer):
     p = Person('a', '@a', less_than_median_lines)
     organizer.add(p)
 
-    assert 1/0
+    assert 1/0 == 0
     assert organizer.d[0] == p
     pass
 

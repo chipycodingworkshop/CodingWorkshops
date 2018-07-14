@@ -6,4 +6,4 @@ env:
   - TEST_DIR=problems/py101/testing
 
 script: 
-  - cd $TEST_DIR && pip install -r requirements.txt && pytest
+  - cd $TEST_DIR && make
