@@ -38,7 +38,12 @@ def test_add_person_with_higher_than_median(organizer):
 
 
 def test_add_a_person_with_lower_than_median(organizer):
-    print(organizer.d)
+    median_lines = organizer.median_lines()
+    more_than_median_lines = median_lines - 1000
+    p = Person('a', '@a', more_than_median_lines)
+    organizer.add(p)
+
+    assert organizer.d[len(organizer.d) - 1] == p
     pass
 
 
