@@ -1,6 +1,6 @@
 language: python
 python:
-  - "3.5"
+  - "3.6"
 # add other problem directories
 env:
   - TEST_DIR=problems/py101/testing
