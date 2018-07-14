@@ -4,12 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+
+[dev-packages]
 pytest = "==3.6.3"
 pytest-cov = "==2.5.1"
 pytest-xdist = "==1.19.1"
 "pytest-flake8" = "==1.0.1"
-
-[dev-packages]
 
 [requires]
 python_version = "3.6"
