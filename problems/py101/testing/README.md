@@ -1,82 +1,113 @@
-**Introduction to PyTest and Continuous Integration**
+# 1. Introduction to PyTest and Continuous Integration
 
-[![Build Status](https://travis-ci.org/chipycodingworkshop/CodingWorkshops.svg?branch=develop%2Fci)](https://travis-ci.org/chipycodingworkshop/CodingWorkshops)
+<!-- TOC -->
 
-Objective:
+- [1. Introduction to PyTest and Continuous Integration](#1-introduction-to-pytest-and-continuous-integration)
+    - [1.1. Setup Instructions](#11-setup-instructions)
+        - [1.1.1. Git and Github](#111-git-and-github)
+        - [1.1.2. Travis setup](#112-travis-setup)
+    - [1.2. Python](#12-python)
+    - [1.3. Quick Git command refresher](#13-quick-git-command-refresher)
+    - [1.4. Exercise 0: Project Setup](#14-exercise-0-project-setup)
+        - [1.4.1. `team_organizer.py`](#141-team_organizerpy)
+        - [1.4.2. `test_team_organizer.py`](#142-test_team_organizerpy)
+        - [1.4.3. `Makefile`](#143-makefile)
+        - [1.4.4. `Pipfile` and `Pipfile.lock`](#144-pipfile-and-pipfilelock)
+        - [1.4.5. `pytest.ini`](#145-pytestini)
+        - [1.4.6. `travis.yml`](#146-travisyml)
+        - [1.4.7. Test your setup is working](#147-test-your-setup-is-working)
+    - [1.5. Exercise 1: Build](#15-exercise-1-build)
+    - [1.6. Exercise 2: Run the program](#16-exercise-2-run-the-program)
+    - [1.7. Exercise 3: Running the tests](#17-exercise-3-running-the-tests)
+- [2. Execrise 4: Coverage](#2-execrise-4-coverage)
+- [3. Exercise 6: Fail, Fix, Pass](#3-exercise-6-fail-fix-pass)
+    - [3.1. Exercise 7: Fixtures](#31-exercise-7-fixtures)
+    - [3.2. Exercise 8: Implement the tests that are empty](#32-exercise-8-implement-the-tests-that-are-empty)
+    - [3.3. Exercise 9: Implement the tests first, then the feature](#33-exercise-9-implement-the-tests-first-then-the-feature)
+    - [3.4. todo](#34-todo)
+
+<!-- /TOC -->
+
+Testing and Continuous Integration is at the heart of building good software.
+For this project we will be focus on writing tests for a given problem and use
+travis-ci for running the tests automatically everytime code is checked into Github.
+
+**Objectives**:
+In this project we will explore
 
 - Introduction to unit testing with pytest
 - How to setup continuous integration with Github and Travis-CI
 
-<!-- TOC -->
+## 1.1. Setup Instructions
 
-- [1. Setup Instructions](#1-setup-instructions)
-    - [1.1. Git and Github](#11-git-and-github)
-    - [1.2. Travis setup](#12-travis-setup)
-    - [1.3. Python](#13-python)
-- [2. Quick Git command refresher](#2-quick-git-command-refresher)
-- [3. Exercise 0: Project Setup](#3-exercise-0-project-setup)
-    - [3.1. `team_organizer.py`](#31-team_organizerpy)
-    - [3.2. `test_team_organizer.py`](#32-test_team_organizerpy)
-    - [3.3. `Makefile`](#33-makefile)
-    - [3.4. `Pipfile` and `Pipfile.lock`](#34-pipfile-and-pipfilelock)
-    - [3.5. `pytest.ini`](#35-pytestini)
-    - [3.6. `travis.yml`](#36-travisyml)
-- [4. Exercise 1: Build](#4-exercise-1-build)
-- [5. Exercise 2: Run the program](#5-exercise-2-run-the-program)
-- [6. Exercise 3: Running the tests](#6-exercise-3-running-the-tests)
-- [7. Execrise 4: Coverage](#7-execrise-4-coverage)
-- [8. Exercise 6: Fail, Fix, Pass](#8-exercise-6-fail-fix-pass)
-- [9. Exercise 7: Fixtures](#9-exercise-7-fixtures)
-- [10. Exercise 8: Implement the tests that are empty](#10-exercise-8-implement-the-tests-that-are-empty)
-- [11. Exercise 9: Implement the tests first, then the feature](#11-exercise-9-implement-the-tests-first-then-the-feature)
-- [12. todo](#12-todo)
+For doing this project you will need a Github account, a Travis-ci.org account and git
+installed locally.
 
-<!-- /TOC -->
+### 1.1.1. Git and Github
 
-# 1. Setup Instructions
-
-## 1.1. Git and Github
-
-After completing the above steps you should have a github account and be able to push
+After completing the steps below you should have a github account and be able to push
 your local changes to this repository to github.
 
-- Follow the setup steps described [here](https://help.github.com/articles/set-up-git/).
-- Follow the steps described in [fork a repo](https://help.github.com/articles/fork-a-repo).
-- Now fork [this repository](https://github.com/chicagopython/CodingWorkshops) by clicking the fork button.
+- Follow the setup steps described [here](https://help.github.com/articles/set-up-git/)
+- Read the steps described in [fork a repo](https://help.github.com/articles/fork-a-repo)
+- Use the steps described above to fork this repository [CodingWorkshops](https://github.com/chicagopython/CodingWorkshops)
 
-## 1.2. Travis setup
+The changes that you make as a part of this exercise, will be pushed to the fork you created for this
+repository.
 
-In this section we will set up a Continuous Integration pipeline
-with Travis-ci.
+In case you have already have created a fork of this repository in your github account, you will
+want to bring it up to date with the recent changes. In that case,
+you will need to do the following:
+
+- [configuring a remote fork](https://help.github.com/articles/configuring-a-remote-for-a-fork/)
+- [syncing a fok](https://help.github.com/articles/syncing-a-fork/)
+
+### 1.1.2. Travis setup
+
+Continuous Integrration is a critical part of building your software. It automatically runs
+the tests when you check in code into your version control (git) and paves the way for
+continuous delivery, i.e. release often and release early.
+In this section we will set up a Continuous Integration pipeline with Travis-ci.
 
 - First, head over to [Travis-CI.org](https://travis-ci.org/.)
 - Sign in with your Github account, and accept the terms and conditions.
-- On success, you should be at your profile page that lists the CodingWorkshop repository.
-- Once you have located the repo, toggle the button next to the repository to enable pipeline travis CI
+- On success, you will be landing on your profile page that lists the CodingWorkshop repository
+- Once you have located the repo, toggle the button next to the repository to enable travis CI
 
-If you have multiple repositories, you will have to search for the repository.
+![travi-build-img](EnableTravisCI.png)
 
-## 1.3. Python
+If you have multiple repositories, you will have to search for the repository by typing in the name
+of the repository (CodingWorkshop) in the search bar on the dashboard page.
+
+## 1.2. Python
 
 This project has made no attempt to be compatible with Python 2.7. 😎
 
 Recommended version: Python 3.6
 
-# 2. Quick Git command refresher
+## 1.3. Quick Git command refresher
 
 Below are the few most used git commands
 
-    git checkout develop/ci      # checkout to develop/ci branch
+    git checkout master          # checkout to master branch
     git checkout -b feature/cool # crate a new branch feature/cool
     git add -u                   # stage all the updates for commit
     git commit -am "Adding changes and commiting with a comment"
-    git push origin develop/ci   # push commits to develop/ci branch
+    git push origin master       # push commits to develop/ci branch
 
-# 3. Exercise 0: Project Setup
+Note for this exercise, we will be working on the master branch directly. However,
+that is NOT the best practice. Branches are cheap in git, so a new feature or fix
+would first go to a branch, get tested, code reviewed and finally merged to master.
 
-By this step you should have the forked version of CodingWorkshop
-repository in your machine. Lets take the time to look at the structure of this
-project. All code is located under `/problems/py101/testing` directory.
+## 1.4. Exercise 0: Project Setup
+
+After completing the steps in setup, you should have the cloned versoin of the fork of CodingWorkshop
+repository in your local machine. Lets take the time to look at the structure of this
+project. All code is located under `/problems/py101/testing` directory. So from your
+terminal go to the directory where you have cloned the repository.
+
+    cd path/to/clone/problems/py101/testing
+
 Make sure you are in this directory for the remainder of this project.
 
 Run `pwd` (`cwd` for Windows) on the command prompt to find out which directory you
@@ -85,38 +116,60 @@ are on.
 Your output should end in `problems/py101/testing` and contain the files described
 below.
 
-## 3.1. `team_organizer.py`
+### 1.4.1. `team_organizer.py`
 
 This file is a simplified implementation of the problem of grouping the project
 night attendees into teams of four based on the number of lines of code they have
 written such that two team members have more lines of code than the other.
+This is the system under test.
 
-## 3.2. `test_team_organizer.py`
+### 1.4.2. `test_team_organizer.py`
 
 This file is the test for the above module written using Pytest.
-These are the only two files that we will be making modifications to for this project.
 
-## 3.3. `Makefile`
+These two files mentioned above are the only two files that we will be making
+modifications to for this project.
 
-This file commands that are required building the project.
+### 1.4.3. `Makefile`
 
-## 3.4. `Pipfile` and `Pipfile.lock`
+This file contains the commands that are required building the project.
+You can run `make help` to see what are the options.
+
+### 1.4.4. `Pipfile` and `Pipfile.lock`
 
 These two files are used by `pipenv` to create a virtual enviornment that
 isolates all the dependencies of this project from other python projects in your computer.
 Learn more about [pipenv](https://docs.pipenv.org/).
 
-## 3.5. `pytest.ini`
+### 1.4.5. `pytest.ini`
 
 This file contains the configuration for `pytest`.
 
-## 3.6. `travis.yml`
+### 1.4.6. `travis.yml`
 
 In addition to all the files in this directory, located at the root of the repository,
 is a file called `.travis.yml`. This is used by the continuous intergration tool travis-ci.
 This contains the information on how to build this python project.
 
-# 4. Exercise 1: Build
+### 1.4.7. Test your setup is working
+
+Just make a small edit on this file (README.md), commit and push the changes.
+
+    git commit -am "Demo commit to check everything is working"
+    git push origin master
+
+If travis-ci.org gets triggered and is all green, your push has successfully ran through
+the linting and testing pipeline.
+
+To display that badge of honor, click on the build button next on the travis page and select
+Markdown from the second dropdown. Copy the markdown code displayed and add it to the top
+of this file (README.md).
+
+![travi-build-img](travis-build-img.png)
+
+If you run into issues, [ask your question on slack](https://chipy.slack.com/messages/C093F7W8P/details/)
+
+## 1.5. Exercise 1: Build
 
 From the `/problems/py101/testing` directory, run
 
@@ -128,7 +181,7 @@ From the `/problems/py101/testing` directory, run
 - Note a new directory `htmlcov` was created. We will revisit this in Exericse 5.
 - What is difference in output when you run the `make` command again?
 
-# 5. Exercise 2: Run the program
+## 1.6. Exercise 2: Run the program
 
 Start by running
 
@@ -177,7 +230,7 @@ written less lines of code than the others.
     org>
     ```
 
-# 6. Exercise 3: Running the tests
+## 1.7. Exercise 3: Running the tests
 
 Run
 
@@ -192,7 +245,7 @@ Run
 Now check the flags that are present in the `pytest.ini` file against
 the output of the `--help` command to see what each one does.
 
-# 7. Execrise 4: Coverage
+# 2. Execrise 4: Coverage
 
 When we first ran `make`, `pytest` created a directory called `htmlcov`
 that show you the coverage information about `team_organizr,py` code.
@@ -201,7 +254,7 @@ has not be covered.
 
 What is the % coverage of the code at this point?
 
-# 8. Exercise 6: Fail, Fix, Pass
+# 3. Exercise 6: Fail, Fix, Pass
 
 After setup is complete, next go back to the terminal and ensure that
 you are on the develop/ci branch.
@@ -222,16 +275,16 @@ Next, fix the test so that when you run `make test` again all the tests pass.
 Go to travis-ci.org and inspect the output before and after fixing the test.
 What is the coveraga value at this point?
 
-# 9. Exercise 7: Fixtures
+## 3.1. Exercise 7: Fixtures
 
 What are the two fixtures used in the tests and how are they different?
 
-# 10. Exercise 8: Implement the tests that are empty
+## 3.2. Exercise 8: Implement the tests that are empty
 
 - test_add_a_person_who_has_never_written_code_before
 - test_add_two_person_with_same_name_but_different_slack_handles
 
-# 11. Exercise 9: Implement the tests first, then the feature
+## 3.3. Exercise 9: Implement the tests first, then the feature
 
 For the following two tests, first implement the test that defines
 behavior. If you run the tests at this point, they should fail.
@@ -241,4 +294,5 @@ the code. If you think your implementation is complete, run `make test`.
 - test_add_a_person_who_supplied_negative_lines_of_code
 - test_add_same_person_twice
 
-# 12. todo
+## 3.4. todo
+
