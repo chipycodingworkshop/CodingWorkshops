@@ -2,8 +2,11 @@
 
 [![Build Status](https://travis-ci.org/chipycodingworkshop/CodingWorkshops.svg?branch=develop%2Fci)](https://travis-ci.org/chipycodingworkshop/CodingWorkshops)
 
-Objective: A gentle introduction to testing with pytest and how to setup continuous integration with
-Travis-CI.
+Objective:
+
+- Introduction to unit testing with pytest
+- How to setup continuous integration with Github and Travis-CI
+
 <!-- TOC -->
 
 - [1. Setup Instructions](#1-setup-instructions)
@@ -12,16 +15,21 @@ Travis-CI.
     - [1.3. Python](#13-python)
 - [2. Quick Git command refresher](#2-quick-git-command-refresher)
 - [3. Exercise 0: Project Setup](#3-exercise-0-project-setup)
+    - [3.1. `team_organizer.py`](#31-team_organizerpy)
+    - [3.2. `test_team_organizer.py`](#32-test_team_organizerpy)
+    - [3.3. `Makefile`](#33-makefile)
+    - [3.4. `Pipfile` and `Pipfile.lock`](#34-pipfile-and-pipfilelock)
+    - [3.5. `pytest.ini`](#35-pytestini)
+    - [3.6. `travis.yml`](#36-travisyml)
 - [4. Exercise 1: Build](#4-exercise-1-build)
 - [5. Exercise 2: Run the program](#5-exercise-2-run-the-program)
 - [6. Exercise 3: Running the tests](#6-exercise-3-running-the-tests)
-- [7. Exercise 4: Inspect the pytest.ini file](#7-exercise-4-inspect-the-pytestini-file)
-- [8. Execrise 5: Coverage](#8-execrise-5-coverage)
-- [9. Exercise 6: Fail, Fix, Pass](#9-exercise-6-fail-fix-pass)
-- [10. Exercise 7: Fixtures](#10-exercise-7-fixtures)
-- [11. Exercise 8: Implement the tests that are empty](#11-exercise-8-implement-the-tests-that-are-empty)
-- [12. Exercise 8: Implement the tests first, then the feature](#12-exercise-8-implement-the-tests-first-then-the-feature)
-- [todo](#todo)
+- [7. Execrise 4: Coverage](#7-execrise-4-coverage)
+- [8. Exercise 6: Fail, Fix, Pass](#8-exercise-6-fail-fix-pass)
+- [9. Exercise 7: Fixtures](#9-exercise-7-fixtures)
+- [10. Exercise 8: Implement the tests that are empty](#10-exercise-8-implement-the-tests-that-are-empty)
+- [11. Exercise 9: Implement the tests first, then the feature](#11-exercise-9-implement-the-tests-first-then-the-feature)
+- [12. todo](#12-todo)
 
 <!-- /TOC -->
 
@@ -41,7 +49,7 @@ your local changes to this repository to github.
 In this section we will set up a Continuous Integration pipeline
 with Travis-ci.
 
-- First head over to [Travis-CI.org](https://travis-ci.org/.)
+- First, head over to [Travis-CI.org](https://travis-ci.org/.)
 - Sign in with your Github account, and accept the terms and conditions.
 - On success, you should be at your profile page that lists the CodingWorkshop repository.
 - Once you have located the repo, toggle the button next to the repository to enable pipeline travis CI
@@ -51,6 +59,7 @@ If you have multiple repositories, you will have to search for the repository.
 ## 1.3. Python
 
 This project has made no attempt to be compatible with Python 2.7. 😎
+
 Recommended version: Python 3.6
 
 # 2. Quick Git command refresher
@@ -70,32 +79,42 @@ repository in your machine. Lets take the time to look at the structure of this
 project. All code is located under `/problems/py101/testing` directory.
 Make sure you are in this directory for the remainder of this project.
 
-Run the following on the command prompt
+Run `pwd` (`cwd` for Windows) on the command prompt to find out which directory you
+are on.
 
-    pwd #cwd in windows
-
-your output should end in `problems/py101/testing` and contain the files described
+Your output should end in `problems/py101/testing` and contain the files described
 below.
 
-`team_organizer.py` is simplified implementation of the problem of grouping the project
+## 3.1. `team_organizer.py`
+
+This file is a simplified implementation of the problem of grouping the project
 night attendees into teams of four based on the number of lines of code they have
 written such that two team members have more lines of code than the other.
 
-`test_team_organizer.py` is the test for the module written using Pytest.
+## 3.2. `test_team_organizer.py`
 
+This file is the test for the above module written using Pytest.
 These are the only two files that we will be making modifications to for this project.
 
-`Makefile` has the commands that are required building the project.
+## 3.3. `Makefile`
 
-`Pipfile` and `Pipfile.lock` are used by `pipenv` to create a virtual enviornment that
+This file commands that are required building the project.
+
+## 3.4. `Pipfile` and `Pipfile.lock`
+
+These two files are used by `pipenv` to create a virtual enviornment that
 isolates all the dependencies of this project from other python projects in your computer.
-Learn more about pipenv [here](https://docs.pipenv.org/).
+Learn more about [pipenv](https://docs.pipenv.org/).
 
-We will look at `pytest.ini` a bit later in an exercise.
+## 3.5. `pytest.ini`
 
-In addition to this, located at the root of the repository is a file called
-`.travis.yml`. This is used by the continuous intergration tool travis-ci,
-to figure out how to build this python project.
+This file contains the configuration for `pytest`.
+
+## 3.6. `travis.yml`
+
+In addition to all the files in this directory, located at the root of the repository,
+is a file called `.travis.yml`. This is used by the continuous intergration tool travis-ci.
+This contains the information on how to build this python project.
 
 # 4. Exercise 1: Build
 
@@ -107,7 +126,7 @@ From the `/problems/py101/testing` directory, run
 - Which version of python is getting used?
 - How many tests pass, skipped and how long did it take?
 - Note a new directory `htmlcov` was created. We will revisit this in Exericse 5.
-- What happens when you run the `make` command again
+- What is difference in output when you run the `make` command again?
 
 # 5. Exercise 2: Run the program
 
@@ -122,7 +141,7 @@ Following that, we run the `print` command where the users
 are grouped in to max of size four where two users have
 written less lines of code than the others.
 
-    ```bash
+    ```
     t (master *) testing $ python team_organizer.py
     Welcome to Chicago Python Project Night Team Organizer
     org> help
@@ -166,16 +185,14 @@ Run
 
 This will run the tests in the `test_team_organizer.py` file.
 
-# 7. Exercise 4: Inspect the pytest.ini file
-
 Run
 
     pipenv run pytest --help
 
-then check the flags that are present in the `pytest.ini` file against
+Now check the flags that are present in the `pytest.ini` file against
 the output of the `--help` command to see what each one does.
 
-# 8. Execrise 5: Coverage
+# 7. Execrise 4: Coverage
 
 When we first ran `make`, `pytest` created a directory called `htmlcov`
 that show you the coverage information about `team_organizr,py` code.
@@ -184,7 +201,7 @@ has not be covered.
 
 What is the % coverage of the code at this point?
 
-# 9. Exercise 6: Fail, Fix, Pass
+# 8. Exercise 6: Fail, Fix, Pass
 
 After setup is complete, next go back to the terminal and ensure that
 you are on the develop/ci branch.
@@ -205,16 +222,16 @@ Next, fix the test so that when you run `make test` again all the tests pass.
 Go to travis-ci.org and inspect the output before and after fixing the test.
 What is the coveraga value at this point?
 
-# 10. Exercise 7: Fixtures
+# 9. Exercise 7: Fixtures
 
 What are the two fixtures used in the tests and how are they different?
 
-# 11. Exercise 8: Implement the tests that are empty
+# 10. Exercise 8: Implement the tests that are empty
 
 - test_add_a_person_who_has_never_written_code_before
 - test_add_two_person_with_same_name_but_different_slack_handles
 
-# 12. Exercise 8: Implement the tests first, then the feature
+# 11. Exercise 9: Implement the tests first, then the feature
 
 For the following two tests, first implement the test that defines
 behavior. If you run the tests at this point, they should fail.
@@ -224,4 +241,4 @@ the code. If you think your implementation is complete, run `make test`.
 - test_add_a_person_who_supplied_negative_lines_of_code
 - test_add_same_person_twice
 
-# todo
+# 12. todo
