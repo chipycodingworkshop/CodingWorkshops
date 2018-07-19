@@ -1,4 +1,4 @@
-from team_organizer import OrganizerShell, Person, Organizer
+from team_organizer import Person, Organizer
 import pytest
 import random
 import string
@@ -49,8 +49,26 @@ def test_add_a_person_with_lower_than_median(organizer):
     pass
 
 
+@pytest.mark.skip(reason="broken test needs fixing")
+@pytest.mark.parametrize("test_input,expected", [
+    ([Person('a', '@a', 1),
+     Person('b', '@b', 2),
+     Person('c', '@c', 3),
+     Person('d', '@d', 4)], 1),
+    ([Person('a', '@a', 1)], 1)
+])
+def test_count_number_of_teams(organizer, test_input, expected):
+    for p in test_input:
+        organizer.add(p)
+    assert len(organizer.teams()) == expected
+
+
 def test_add_a_person_who_has_never_written_code_before(organizer):
-    print(organizer.d)
+    organizer.add(Person('a', '@a', 0))
+    pass
+
+
+def test_add_two_person_with_same_name_but_different_slack_handles(organizer):
     pass
 
 
@@ -59,21 +77,6 @@ def test_add_a_person_who_supplied_negative_lines_of_code(organizer):
     pass
 
 
-def test_add_two_person_with_same_name_but_different_slack_handles(organizer):
-    pass
-
-
 def test_add_same_person_twice():
     'Behavior not implemented. Decide & implement the behavior & the test.'
-    pass
-
-
-# TODO
-@pytest.fixture
-def shell(person):
-    shell = OrganizerShell()
-    return shell
-
-
-def test_print_cmd(capsys, shell):
     pass

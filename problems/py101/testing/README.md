@@ -19,12 +19,11 @@
     - [1.5. Exercise 1: Build](#15-exercise-1-build)
     - [1.6. Exercise 2: Run the program](#16-exercise-2-run-the-program)
     - [1.7. Exercise 3: Running the tests](#17-exercise-3-running-the-tests)
-- [2. Execrise 4: Coverage](#2-execrise-4-coverage)
-- [3. Exercise 6: Fail, Fix, Pass](#3-exercise-6-fail-fix-pass)
-    - [3.1. Exercise 7: Fixtures](#31-exercise-7-fixtures)
-    - [3.2. Exercise 8: Implement the tests that are empty](#32-exercise-8-implement-the-tests-that-are-empty)
-    - [3.3. Exercise 9: Implement the tests first, then the feature](#33-exercise-9-implement-the-tests-first-then-the-feature)
-    - [3.4. todo](#34-todo)
+    - [1.8. Execrise 4: Coverage](#18-execrise-4-coverage)
+    - [1.9. Exercise 6: Fail, Fix, Pass](#19-exercise-6-fail-fix-pass)
+    - [1.10. Exercise 7: Fixtures](#110-exercise-7-fixtures)
+    - [1.11. Exercise 8: Implement the tests](#111-exercise-8-implement-the-tests)
+    - [1.12. Exercise 9: Implement the tests first, then implement the feature](#112-exercise-9-implement-the-tests-first-then-implement-the-feature)
 
 <!-- /TOC -->
 
@@ -120,7 +119,7 @@ below.
 
 This file is a simplified implementation of the problem of grouping the project
 night attendees into teams of four based on the number of lines of code they have
-written such that two team members have more lines of code than the other.
+written such that in each team, two team members have more lines of code than the other.
 This is the system under test.
 
 ### 1.4.2. `test_team_organizer.py`
@@ -175,7 +174,7 @@ From the `/problems/py101/testing` directory, run
 
     make
 
-- Which are packages get installed?
+- Which packages got installed?
 - Which version of python is getting used?
 - How many tests pass, skipped and how long did it take?
 - Note a new directory `htmlcov` was created. We will revisit this in Exericse 5.
@@ -245,54 +244,67 @@ Run
 Now check the flags that are present in the `pytest.ini` file against
 the output of the `--help` command to see what each one does.
 
-# 2. Execrise 4: Coverage
+## 1.8. Execrise 4: Coverage
 
 When we first ran `make`, `pytest` created a directory called `htmlcov`
 that show you the coverage information about `team_organizr,py` code.
 Open the `index.html` file inside `htmlcov` to check the lines that
-has not be covered.
+has not been covered by the tests in the `test_team_organizer.py`.
 
 What is the % coverage of the code at this point?
+Click on `team_organizer.py` to see which lines are outside coverage.
 
-# 3. Exercise 6: Fail, Fix, Pass
-
-After setup is complete, next go back to the terminal and ensure that
-you are on the develop/ci branch.
-
-    git branch
-
-should show an asterix next to `develop/ci` branch name.
+## 1.9. Exercise 6: Fail, Fix, Pass
 
 You are now all set to fix the tests. Goto `test_team_organizer.py` and
 find `test_add_a_person_with_lower_than_median` test. Notice this test is
 skipped when run with pytest. To fix it remove the decorator `pytest.mark.skip`
-and run `pytest` again. Commit the code and push it.
+and run `pytest` again. Commit the code and run
 
-    git commit -am "Commit a failed test"
-    git push origin develop/ci
+    make test
 
-Next, fix the test so that when you run `make test` again all the tests pass.
+Make the necessary changes so that the test passes.
+
+    git commit -am "Fixed failing test"
+    git push origin master
+
 Go to travis-ci.org and inspect the output before and after fixing the test.
-What is the coveraga value at this point?
+What is the coverage value at this point?
 
-## 3.1. Exercise 7: Fixtures
+## 1.10. Exercise 7: Fixtures
 
-What are the two fixtures used in the tests and how are they different?
+The purpose of test fixtures is to provide a fixed baseline upon which tests can
+reliably and repeatedly execute.
 
-## 3.2. Exercise 8: Implement the tests that are empty
+We are making use of two fixtures - one factory method `person` that churns out Persons
+as needed by `organizer` fixture.
+
+`test_count_number_of_teams` is broken as well. How can you fix it?
+
+Tip: To run a singe test, use
+
+    pipenv run pytest -k <name-of-test>
+
+## 1.11. Exercise 8: Implement the tests
+
+The two functions below have been left for you to implement.
 
 - test_add_a_person_who_has_never_written_code_before
 - test_add_two_person_with_same_name_but_different_slack_handles
 
-## 3.3. Exercise 9: Implement the tests first, then the feature
+Note the names of the tests are long and verbose to give you an idea of what
+what exactly you need to test.
 
-For the following two tests, first implement the test that defines
-behavior. If you run the tests at this point, they should fail.
-Then go back to `team_organizer` and implement the feature by changing
-the code. If you think your implementation is complete, run `make test`.
+Does implementing these tests have any effect on coverage results?
+Would it be still useful if there is no improvement in coverage?
 
-- test_add_a_person_who_supplied_negative_lines_of_code
-- test_add_same_person_twice
+## 1.12. Exercise 9: Implement the tests first, then implement the feature
 
-## 3.4. todo
+For the following two tests, first implement the test that asserts the
+expected behavior. From the test name it should be evident from the test name.
+If you run the tests at this point, they should fail. Then go back to
+`team_organizer.py` and implement the feature by changing the code.
+Once your implementation is complete, run `make test`.
 
+- test_adding_person_with_negative_lines_of_code_throws_exception
+- test_handle_duplicate_additions
